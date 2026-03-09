@@ -1,0 +1,8 @@
+{
+  "name": "build-with-bigdata-com",
+  "description": "Claude plugin to help users integrate with Bigdata.com Service APIs.",
+  "version": "0.0.1",
+  "author": {
+    "name": "RavenPack"
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "mcpServers": {
+      "docs.bigdata.com": {
+        "url": "https://docs.bigdata.com/mcp"
+      } 
+  }
+}
