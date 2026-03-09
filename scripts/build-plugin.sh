@@ -22,6 +22,8 @@ rm -f "${OUTPUT_FILE}"
 
 zip -r "${OUTPUT_FILE}" \
   .claude-plugin/ \
-  commands/
+  .mcp.json \
+  commands/ \
+  skills/
 
 echo "Created: ${OUTPUT_FILE}"
