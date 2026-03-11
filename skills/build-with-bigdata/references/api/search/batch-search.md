@@ -125,7 +125,7 @@ Each line in the results `.jsonl` contains:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `line_number` | int | Matches the line in your input file |
+| `line_number` | int | **1-indexed** line number matching the input file. Use `line_number - 1` to index into a 0-based Python list. |
 | `status` | string | `success`, `error`, `timeout`, or `exception` |
 | `query` | object | Original search query submitted |
 | `response` | object | Search response for this query |
