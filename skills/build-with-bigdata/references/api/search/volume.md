@@ -34,15 +34,6 @@ Single property **query** (no `max_chunks`, no `ranking_params`):
 
 - Volume uses the same `filters` as Search, so volume counts reflect what a Search call would return for that window.
 - Use volume to decide date ranges or entity baskets before running larger Search jobs (e.g. smart batching).
-- **Write `text` as a semantically meaningful sentence, not a keyword dump.** Embeddings are computed at chunk level — a bag of keywords produces weak matches. Write a natural-language sentence that describes the context you want to find: `"The central bank raised interest rates to combat rising inflation."` This dramatically improves recall and chunk-count accuracy.
-
-| Poor | Better |
-|---|---|
-| `"inflation"` | `"Inflation is rising and consumer prices are increasing."` |
-| `"recession GDP decline"` | `"The economy is contracting and GDP growth is declining."` |
-| `"rate hike Federal Reserve"` | `"The Federal Reserve raised interest rates to tighten monetary policy."` |
-| `"China trade tariffs"` | `"China and the US are engaged in a trade war with rising tariffs."` |
-| `"quantum computing qubits hardware"` | `"The company is developing quantum computing processors and algorithms."` |
 
 ## Example
 
@@ -51,7 +42,7 @@ import os
 import requests
 
 API_KEY = os.environ["BIGDATA_API_KEY"]
-BASE_URL = "https://api.bigdata.com"
+BASE_URL = os.environ.get("BIGDATA_API_BASE_URL", "https://api.bigdata.com")
 HEADERS = {"X-API-KEY": API_KEY, "Content-Type": "application/json"}
 
 query = {

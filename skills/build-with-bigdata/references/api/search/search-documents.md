@@ -20,8 +20,6 @@ Semantic search over financial documents, news, earnings transcripts, analyst re
   - **max_chunks**: Integer (e.g. 10–100). Higher values for broader coverage; consider multiple calls for different angles.
   - **auto_enrich_filters**: Boolean. Set to **false** when you control entity/filters explicitly (recommended for reproducible queries).
 
-- **Source rank filtering**: The `filters.source` field accepts `{mode: "INCLUDE"|"EXCLUDE", values: ["source_id_1", ...]}` with **source IDs only** — not rank strings. To filter by rank (RANK_1–RANK_5), first fetch source IDs via `POST /v1/knowledge-graph/sources` with `{"ranks": ["RANK_1"]}`, then pass those IDs into `source.values`.
-
 - **search_mode** (optional): `"fast"` (default) or `"smart"`. Use `fast` when you supply filters; `smart` auto-derives filters from text (only timestamp and source filters allowed).
 - **include_audit** (optional): If true, response includes resolved queries for debugging.
 
@@ -31,7 +29,7 @@ Semantic search over financial documents, news, earnings transcripts, analyst re
 
 ## Best practices
 
-- Write `text` as a **semantically meaningful sentence**, not a keyword dump. Embeddings are computed at chunk level — `"quantum computing qubits hardware"` is weak; `"The company is developing quantum computing processors and algorithms."` is strong. The sentence should describe the context you want to match.
+- Use **semantic** queries (natural language); avoid relying only on keywords.
 - Set **auto_enrich_filters: false** when using entity or keyword filters to avoid unintended enrichment.
 - For backtesting or unbiased retrieval, set **freshness_boost: 0**.
 - Tune **max_chunks** (e.g. 20–50 for focused queries); split into multiple calls for different aspects rather than one very large request.
@@ -44,7 +42,7 @@ import os
 import requests
 
 API_KEY = os.environ["BIGDATA_API_KEY"]
-BASE_URL = "https://api.bigdata.com"
+BASE_URL = os.environ.get("BIGDATA_API_BASE_URL", "https://api.bigdata.com")
 HEADERS = {"X-API-KEY": API_KEY, "Content-Type": "application/json"}
 
 query = {

@@ -23,7 +23,7 @@ Resolve company and entity names to IDs, and IDs back to names and metadata. Use
 - **countries**: ISO 3166-1 alpha-2 codes (e.g. `["US", "FR"]`).
 - **sectors**: Array of sector names (use `/companies/sectors` to list).
 
-**Response:** `{"results": [...]}` — a wrapper object whose `results` key is an array of **Company** objects: `id`, `name`, `type`, `country`, `sector`, `industry_group`, `industry`, `webpage`, `listing_values`, `isin_values`, etc. Use `id` in Search/Volume/Co-mentions entity filters. **Always call `.get("results", [])` on the parsed JSON — do NOT treat the response as a bare list.**
+**Response:** Array of **Company** objects: `id`, `name`, `type`, `country`, `sector`, `industry_group`, `industry`, `webpage`, `listing_values`, `isin_values`, etc. Use `id` in Search/Volume/Co-mentions entity filters.
 
 ## Entities by ID — `POST /v1/knowledge-graph/entities/id`
 
@@ -44,44 +44,12 @@ Resolve company and entity names to IDs, and IDs back to names and metadata. Use
 
 **Response:** Source list (see OpenAPI FindSourcesResponse). Use source IDs in Search/Volume `filters.source`.
 
-## Looking up People (no dedicated endpoint)
-
-There is **no `/v1/knowledge-graph/people` endpoint**. To find a person's entity ID (e.g. "Jensen Huang", "Elon Musk"), use this pattern:
-
-1. Call Co-mentions with `text="<person name>"` and `auto_enrich_filters: true`.
-2. The **top result in the `people` category** is the person themselves (highest chunk count).
-3. Resolve that ID with `entities/id` to confirm the name, then use the ID in Search/Volume filters.
-
-```python
-# Discover a person's entity ID via Co-mentions
-body = {
-    "query": {
-        "text": "Jensen Huang",
-        "auto_enrich_filters": True,   # API resolves the person entity automatically
-        "filters": {"timestamp": {"start": "...", "end": "..."}},
-    },
-    "limit": 5,
-}
-resp = requests.post(f"{BASE_URL}/v1/search/co-mentions/entities", headers=HEADERS, json=body)
-people = resp.json().get("results", {}).get("people", [])
-person_id = people[0]["id"]  # top result = the focal person
-
-# Confirm name
-names = requests.post(
-    f"{BASE_URL}/v1/knowledge-graph/entities/id",
-    headers=HEADERS,
-    json={"values": [person_id]},
-).json().get("results", {})
-print(names[person_id]["name"])  # e.g. "Jensen Huang"
-```
-
 ## Best practices
 
 - Resolve company names to IDs **before** calling Search or Volume when you need entity-scoped results.
 - Use **entities/id** to resolve Co-mentions entity IDs to names for display or filtering.
 - Prefer a single identifier per companies request (e.g. ticker or name); avoid combining multiple identifiers in one query string.
 - Batch entity resolution with **entities/id** (up to 100 IDs per call) instead of one-by-one.
-- To look up a **person** entity ID, use the Co-mentions `people` category (see above) — there is no direct people search endpoint.
 
 ## Example: companies and entities by ID
 
@@ -90,7 +58,7 @@ import os
 import requests
 
 API_KEY = os.environ["BIGDATA_API_KEY"]
-BASE_URL = "https://api.bigdata.com"
+BASE_URL = os.environ.get("BIGDATA_API_BASE_URL", "https://api.bigdata.com")
 HEADERS = {"X-API-KEY": API_KEY, "Content-Type": "application/json"}
 
 # Find companies by name
@@ -100,7 +68,7 @@ companies_resp = requests.post(
     json={"query": "Apple", "types": ["PUBLIC"]},
 )
 companies_resp.raise_for_status()
-companies = companies_resp.json().get("results", [])  # response is {"results": [...]}
+companies = companies_resp.json()
 entity_ids = [c["id"] for c in companies[:3]]
 
 # Resolve entity IDs to details (max 100 per request)
