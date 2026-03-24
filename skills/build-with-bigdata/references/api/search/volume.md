@@ -30,6 +30,16 @@ Single property **query** (no `max_chunks`, no `ranking_params`):
 
 (Some implementations may return `day` instead of `date`; prefer `date` per OpenAPI and handle either when parsing.)
 
+## Response limit
+
+The `results.volume` array is capped at **1000 entries**. If the requested date range contains more than 1000 days with data, older entries are silently truncated.
+
+**Handling large date ranges:**
+- After receiving a response, check if the oldest returned date is newer than your requested `start`. If so, data was truncated.
+- Re-query from your original `start` up to one day before the oldest returned date, then merge the two result arrays.
+- Repeat if necessary (e.g. for multi-year ranges).
+- Do **not** split preemptively — many date ranges contain fewer than 1000 days with actual data and require only one call.
+
 ## Best practices
 
 - Volume uses the same `filters` as Search, so volume counts reflect what a Search call would return for that window.
@@ -40,28 +50,64 @@ Single property **query** (no `max_chunks`, no `ranking_params`):
 ```python
 import os
 import requests
+from datetime import datetime, timedelta
 
 API_KEY = os.environ["BIGDATA_API_KEY"]
 BASE_URL = os.environ.get("BIGDATA_API_BASE_URL", "https://api.bigdata.com")
 HEADERS = {"X-API-KEY": API_KEY, "Content-Type": "application/json"}
 
-query = {
-    "query": {
-        "text": "tariffs impact on supply chain",
-        "auto_enrich_filters": False,
-        "filters": {
-            "timestamp": {"start": "2024-01-01T00:00:00Z", "end": "2024-06-30T23:59:59Z"},
-            "entity": {"any_of": ["228D42"], "all_of": [], "none_of": []},
-        },
-    }
-}
 
-resp = requests.post(f"{BASE_URL}/v1/search/volume", headers=HEADERS, json=query)
-resp.raise_for_status()
-data = resp.json()
-totals = data.get("results", {}).get("total", {})
-print("Total documents:", totals.get("documents"), "chunks:", totals.get("chunks"))
-for day in data.get("results", {}).get("volume", [])[:5]:
+def fetch_volume(query_text, start: str, end: str, entity_ids: list[str]) -> list[dict]:
+    """Fetch volume data for the given range, handling the 1000-entry cap via pagination."""
+    all_entries = []
+    current_end = end
+
+    while True:
+        payload = {
+            "query": {
+                "text": query_text,
+                "auto_enrich_filters": False,
+                "filters": {
+                    "timestamp": {"start": start, "end": current_end},
+                    "entity": {"all_of": entity_ids, "any_of": [], "none_of": []},
+                },
+            }
+        }
+        resp = requests.post(f"{BASE_URL}/v1/search/volume", headers=HEADERS, json=payload)
+        resp.raise_for_status()
+        entries = resp.json().get("results", {}).get("volume", [])
+
+        if not entries:
+            break
+
+        all_entries = entries + all_entries  # prepend older data
+
+        # Get the oldest date returned
+        oldest = min(e.get("date") or e.get("day") for e in entries)
+
+        # If the oldest date is already at or before our start, we're done
+        if oldest <= start[:10]:
+            break
+
+        # If fewer than 1000 entries were returned, no truncation occurred
+        if len(entries) < 1000:
+            break
+
+        # Truncation likely occurred: re-query the missing older range
+        current_end = (datetime.fromisoformat(oldest) - timedelta(days=1)).strftime("%Y-%m-%dT23:59:59Z")
+
+    return all_entries
+
+
+entries = fetch_volume(
+    query_text="tariffs impact on supply chain",
+    start="2022-01-01T00:00:00Z",
+    end="2025-12-31T23:59:59Z",
+    entity_ids=["228D42"],
+)
+
+print(f"Total entries retrieved: {len(entries)}")
+for day in entries[:5]:
     d = day.get("date") or day.get("day")
     print(d, "docs:", day.get("documents"), "chunks:", day.get("chunks"))
 ```
