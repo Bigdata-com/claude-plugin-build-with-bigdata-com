@@ -13,8 +13,9 @@ A Claude plugin that helps developers integrate with [Bigdata.com](https://bigda
 
 | Component | Description |
 |-----------|-------------|
-| `skills/build-with-bigdata/` | Skill with API reference material covering search, structured data, knowledge graph, content, workflows, and the research agent. |
+| `skills/build-with-bigdata/` | Skill with API reference material covering Search, Volume, Knowledge Graph, Co-mentions, Batch Search, and more. |
 | `commands/` | Slash commands for common integration tasks. |
+| `tests/` | Use-case test scripts and prompt examples for validating plugin behavior against real API workflows. |
 | `.claude-plugin/plugin.json` | Plugin manifest. |
 
 ## Useful Links

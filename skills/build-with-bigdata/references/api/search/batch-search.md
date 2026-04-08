@@ -23,6 +23,23 @@ Process large volumes of search queries asynchronously at **50% lower cost** ($0
 4. GET  output_file_url            → download .jsonl results
 ```
 
+## Environment and headers (Python)
+
+Use this before the steps below so `BASE_URL` and `HEADERS` are defined.
+
+```python
+import os
+
+import requests
+
+API_KEY = os.environ["BIGDATA_API_KEY"]
+BASE_URL = os.environ.get("BIGDATA_API_BASE_URL", "https://api.bigdata.com")
+HEADERS = {
+    "X-API-KEY": API_KEY,
+    "Content-Type": "application/json",
+}
+```
+
 ## Step 1: Create a batch job
 
 ```python
