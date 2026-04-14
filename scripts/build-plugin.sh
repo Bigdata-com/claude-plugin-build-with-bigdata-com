@@ -12,8 +12,17 @@ if [ ! -f "${MANIFEST}" ]; then
   exit 1
 fi
 
-VERSION=$(python3 -c "import json; print(json.load(open('${MANIFEST}'))['version'])")
-OUTPUT_FILE="${OUTPUT_DIR}/${PLUGIN_ID}_${VERSION}.zip"
+VERSION_FROM_MANIFEST=$(python3 -c "import json; print(json.load(open('${MANIFEST}'))['version'])")
+
+# Optional first argument: git ref (e.g. v0.1.0). CI passes "${{ github.ref_name }}" so the zip
+# name matches what gh release create attaches. Local runs omit this and use the manifest version only.
+if [ "${1:-}" != "" ]; then
+  ZIP_LABEL="$1"
+else
+  ZIP_LABEL="${VERSION_FROM_MANIFEST}"
+fi
+
+OUTPUT_FILE="${OUTPUT_DIR}/${PLUGIN_ID}_${ZIP_LABEL}.zip"
 
 mkdir -p "${OUTPUT_DIR}"
 

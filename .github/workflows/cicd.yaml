@@ -19,6 +19,12 @@ jobs:
         run: |
           chmod +x ./scripts/build-plugin.sh
           ./scripts/build-plugin.sh "${{ github.ref_name }}"
+          RELEASE_ZIP="dist/claude-plugin-build-with-bigdata-com_${{ github.ref_name }}.zip"
+          if [ ! -f "${RELEASE_ZIP}" ]; then
+            echo "ERROR: Expected artifact missing: ${RELEASE_ZIP}" >&2
+            ls -la dist/ || true
+            exit 1
+          fi
 
       - name: Create GitHub Release
         env:

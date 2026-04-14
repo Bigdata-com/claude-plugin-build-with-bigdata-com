@@ -14,11 +14,7 @@ From the repository root, run:
 ./scripts/build-plugin.sh
 ```
 
-This reads the version from `.claude-plugin/plugin.json` and produces a zip file at:
-
-```
-dist/claude-plugin-build-with-bigdata-com_<version>.zip
-```
+Without arguments, the script names the zip from `.claude-plugin/plugin.json` (e.g. `dist/claude-plugin-build-with-bigdata-com_0.0.1.zip`). **CI passes the git tag** (e.g. `v0.1.0`) as the first argument so the artifact matches `dist/claude-plugin-build-with-bigdata-com_v0.1.0.zip`. For a release, keep `plugin.json`’s `version` aligned with the tag (same numbers; tag may include a leading `v`).
 
 The zip contains `.claude-plugin/`, `commands/`, `skills/` (including the **build-with-bigdata** skill and API reference markdown), and `.mcp.json` (optional Docs MCP config)—everything the build script packs for Claude to load the plugin.
 

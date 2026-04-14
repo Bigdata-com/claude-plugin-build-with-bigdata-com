@@ -20,6 +20,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **`tests/bigdata_use_cases_tests.md`** and the `tests/` directory — example prompts and workflows are maintained in [bigdata-cookbook Sample_Scripts](https://github.com/Bigdata-com/bigdata-cookbook/tree/main/API_Tutorials/Sample_Scripts) instead to keep the plugin package small.
 
+### Fixed
+
+- **Release workflow** — `build-plugin.sh` now uses the git tag passed by CI (e.g. `v0.1.0`) for the zip filename so `gh release create` finds `dist/claude-plugin-build-with-bigdata-com_<tag>.zip`. Local builds without arguments still use the version from `plugin.json`.
+
 ## v0.0.1
 
 ### Added
