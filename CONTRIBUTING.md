@@ -1,6 +1,6 @@
 # Contributing
 
-This plugin is part of the **Anthropic plugin directory**. Any merge to the `main` branch is treated as an official release, so all changes must be tested locally before merging.
+This plugin is part of the **Anthropic plugin directory**. Changes merged to `main` should be tested locally before merging. **GitHub Releases** (with the installable zip) are created when you push a **version tag** (see [Creating a Release](#creating-a-release)), not automatically on every merge to `main`.
 
 ## Local Testing
 
@@ -20,7 +20,7 @@ This reads the version from `.claude-plugin/plugin.json` and produces a zip file
 dist/claude-plugin-build-with-bigdata-com_<version>.zip
 ```
 
-The zip contains the `.claude-plugin/` and `commands/` directories — everything Claude needs to load the plugin.
+The zip contains `.claude-plugin/`, `commands/`, `skills/` (including the **build-with-bigdata** skill and API reference markdown), and `.mcp.json` (optional Docs MCP config)—everything the build script packs for Claude to load the plugin.
 
 ### 2. Install in your local Claude environment
 

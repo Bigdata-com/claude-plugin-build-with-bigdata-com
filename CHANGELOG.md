@@ -4,7 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## v0.1.0
+
+### Added
+
+- **README** — Work-in-progress notice; table of APIs covered by bundled references; prominent link to [bigdata-cookbook Sample_Scripts](https://github.com/Bigdata-com/bigdata-cookbook/tree/main/API_Tutorials/Sample_Scripts); direct links to [build-with-bigdata SKILL.md](skills/build-with-bigdata/SKILL.md) (repository path + GitHub); documents `.mcp.json` in “What’s included.”
+- **Search (documents) reference** — Document `ranking_params.content_diversification` (enabled by default; disable via `enabled: false`); `document_type` **INVESTMENT_RESEARCH** and subtypes; optional chunk **text_locations** (`paragraph_num`, `sentence_num`); **SEC_DEF_14A** filing subtype for proxy statements.
+- **Co-mentions reference** — Document optional **`query.entity_categories`** to filter returned entity buckets.
+
+### Changed
+
+- **SKILL.md** — Knowledge Graph link now points to [knowledge-graph/main.md](skills/build-with-bigdata/references/api/knowledge-graph/main.md); Search and Co-mentions summaries updated for diversification and `entity_categories`.
+
+### Removed
+
+- **`tests/bigdata_use_cases_tests.md`** and the `tests/` directory — example prompts and workflows are maintained in [bigdata-cookbook Sample_Scripts](https://github.com/Bigdata-com/bigdata-cookbook/tree/main/API_Tutorials/Sample_Scripts) instead to keep the plugin package small.
+
+## v0.0.1
 
 ### Added
 

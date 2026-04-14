@@ -89,14 +89,12 @@ The Search service provides real-time and historical search across financial doc
 | Co-mentions | [references/api/search/co-mentions.md](references/api/search/co-mentions.md) |
 | Batch Search | [references/api/search/batch-search.md](references/api/search/batch-search.md) |
 
-**Search (documents):** Semantic search over documents. Use when you need relevant chunks for a query. Set `auto_enrich_filters: false` for explicit control; use `filters` (timestamp, entity) and `ranking_params` (freshness_boost, source_boost); tune `max_chunks`. See [search-documents.md](references/api/search/search-documents.md).
+**Search (documents):** Semantic search over documents. Set `auto_enrich_filters: false` for explicit control; use `filters` (timestamp, entity, `document_type`, etc.) and `ranking_params` (freshness_boost, source_boost; **`content_diversification` is on by default**—set `ranking_params.content_diversification.enabled` to **false** to disable); tune `max_chunks`. See [search-documents.md](references/api/search/search-documents.md).
 
 **Volume:** Document/chunk counts over time for a query. Uses `text`, `filters`, and `auto_enrich_filters` (no `max_chunks`, no `ranking_params`). Use to plan downstream search or to analyze time series. See [volume.md](references/api/search/volume.md).
 
-**Knowledge Graph:** Resolve company/entity names to IDs for use in Search, Volume, and Co-mentions filters. Endpoints: companies (by name/ticker), entities by ID (batch resolve, max 100 per request), sources (by rank/category/country). See [knowledge-graph/overview.md](references/api/knowledge-graph/overview.md).
+**Knowledge Graph:** Resolve company/entity names to IDs for use in Search, Volume, and Co-mentions filters. Endpoints: companies (by name/ticker), entities by ID (batch resolve, max 100 per request), sources (by rank/category/country). See [knowledge-graph/main.md](references/api/knowledge-graph/main.md).
 
-**Co-mentions:** Discover entities frequently mentioned with a topic or focal entity. Uses `text`, `filters`, and `auto_enrich_filters` (no `max_chunks`, no `ranking_params`); optional `limit`. Response grouped by category (companies, places, people, etc.). Resolve entity IDs via Knowledge Graph for names. See [co-mentions.md](references/api/search/co-mentions.md).
+**Co-mentions:** Discover entities frequently mentioned with a topic or focal entity. Uses `text`, `filters`, and `auto_enrich_filters` (no `max_chunks`, no `ranking_params`); optional `limit`; optional **`query.entity_categories`** to return only selected categories (e.g. companies, people). Response grouped by category (companies, places, people, etc.). Resolve entity IDs via Knowledge Graph for names. See [co-mentions.md](references/api/search/co-mentions.md).
 
 **Co-mentions interpretation:** Top entities are not always strategic peers. Media outlets and rating or research names often rank high because they publish or cite the focal entity often. Narrow with a stronger `text` theme, sector or entity filters where supported, or post-filtering so graphs and universes reflect genuine competitors or themes.
-
-When using **MCP** tools (`bigdata_search`, `find_companies`), apply the bigdata-mcp-grounding skill for source attribution and citations.

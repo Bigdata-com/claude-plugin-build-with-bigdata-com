@@ -14,6 +14,7 @@ Discover entities frequently mentioned together with your search query or focal 
 ## Request body
 
 - **query** (required): **text**, **filters** (timestamp, entity, document_type, source, category, keyword, sentiment, etc.), **auto_enrich_filters**. No `max_chunks`, no `ranking_params`.
+- **query.entity_categories** (optional): Restrict which entity **buckets** are returned. Use one or more of: `places`, `companies`, `organizations`, `people`, `products`, `concepts`. If omitted, behavior is unchanged and **all** categories are returned.
 - **limit** (optional): Maximum number of entities to retrieve per category (default 10; must be ≤ 1000).
 
 ## Response
@@ -44,11 +45,12 @@ API_KEY = os.environ["BIGDATA_API_KEY"]
 BASE_URL = os.environ.get("BIGDATA_API_BASE_URL", "https://api.bigdata.com")
 HEADERS = {"X-API-KEY": API_KEY, "Content-Type": "application/json"}
 
-# Co-mentions for a topic
+# Co-mentions for a topic (optional: only companies and people)
 body = {
     "query": {
         "text": "cloud computing adoption",
         "auto_enrich_filters": False,
+        "entity_categories": ["companies", "people"],
         "filters": {
             "timestamp": {"start": "2024-01-01T00:00:00Z", "end": "2024-12-31T23:59:59Z"},
             "entity": {"any_of": [], "all_of": [], "none_of": []},
