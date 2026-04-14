@@ -15,23 +15,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build plugin package
-        run: |
-          chmod +x ./scripts/build-plugin.sh
-          ./scripts/build-plugin.sh "${{ github.ref_name }}"
-          RELEASE_ZIP="dist/claude-plugin-build-with-bigdata-com_${{ github.ref_name }}.zip"
-          if [ ! -f "${RELEASE_ZIP}" ]; then
-            echo "ERROR: Expected artifact missing: ${RELEASE_ZIP}" >&2
-            ls -la dist/ || true
-            exit 1
-          fi
-
-      - name: Create GitHub Release
+      # Build and release in one step so the zip path is guaranteed to exist when gh runs.
+      # gh release create treats asset paths as globs — missing files yield "no matches found".
+      - name: Build plugin package and create release
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
         run: |
-          gh release create "${{ github.ref_name }}" \
+          set -euxo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y zip
+          chmod +x ./scripts/build-plugin.sh
+          ./scripts/build-plugin.sh "${TAG_NAME}"
+          ZIP="${GITHUB_WORKSPACE}/dist/claude-plugin-build-with-bigdata-com_${TAG_NAME}.zip"
+          test -f "${ZIP}"
+          ls -la "${GITHUB_WORKSPACE}/dist/"
+          gh release create "${TAG_NAME}" \
             --repo "${{ github.repository }}" \
-            --title "Release ${{ github.ref_name }}" \
+            --title "Release ${TAG_NAME}" \
             --generate-notes \
-            "dist/claude-plugin-build-with-bigdata-com_${{ github.ref_name }}.zip"
+            "${ZIP}"
