@@ -90,6 +90,12 @@ The Search service provides real-time and historical search across financial doc
 | Batch Search | [references/api/search/batch-search.md](references/api/search/batch-search.md) |
 
 **Search (documents):** Semantic search over documents. Set `auto_enrich_filters: false` for explicit control; use `filters` (timestamp, entity, `document_type`, etc.) and `ranking_params` (freshness_boost, source_boost; **`content_diversification` is on by default**—set `ranking_params.content_diversification.enabled` to **false** to disable); tune `max_chunks`. See [search-documents.md](references/api/search/search-documents.md).
+  - **Filter limits (empirically verified):** `entity` arrays (`any_of`/`all_of`/`none_of`) and `source.values` are capped at **500 IDs** each (HTTP 400 if exceeded). `max_chunks` max is **1000**. Knowledge Graph `entities/id` batch max is **100 IDs**.
+  - **`smart` mode:** Only `timestamp` and `source` filters can be set manually; all other filters and `ranking_params` are derived automatically — passing them returns HTTP 400. Use `fast` mode when you supply explicit filters or ranking params.
+  - **`document_type` types:** `FILING` | `INVESTMENT-RESEARCH` | `NEWS` | `TRANSCRIPT` | `TRANSCRIPT-PRESENTATION`. Each has specific subtypes — see [search-documents.md](references/api/search/search-documents.md) for the complete validated list.
+  - **`category` filter values are lowercase:** e.g. `news`, `transcripts`, `filings`, `research`, `podcasts`, `expert_interviews`. Uppercase values return 400.
+  - **`sentiment.ranges` is preferred** over the deprecated `sentiment.values`. If using the deprecated form, values must be lowercase: `positive`, `negative`, `neutral`.
+  - **`chunk` filter** (context expansion): use with a `document` ID filter to retrieve a specific chunk range (1-based). Useful to widen context around a previously found chunk.
 
 **Volume:** Document/chunk counts over time for a query. Uses `text`, `filters`, and `auto_enrich_filters` (no `max_chunks`, no `ranking_params`). Use to plan downstream search or to analyze time series. See [volume.md](references/api/search/volume.md).
 
