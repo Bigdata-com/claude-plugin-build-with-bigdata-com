@@ -89,6 +89,14 @@ The Search service provides real-time and historical search across financial doc
 | Co-mentions | [references/api/search/co-mentions.md](references/api/search/co-mentions.md) |
 | Batch Search | [references/api/search/batch-search.md](references/api/search/batch-search.md) |
 
+### Content (user documents)
+
+Manage user-uploaded documents under `/contents/v1/documents`: **list**, **get metadata**, and **upload (enrich)** files so they become searchable via the Search API and Research Agent.
+
+Upload is a **two-step flow**: `POST /contents/v1/documents` returns a pre-signed S3 `url` + content `id`; then **PUT** the raw file bytes to that `url` (do not send `X-API-KEY` to S3 — the URL is already signed). Enrichment is async — poll `GET /contents/v1/documents/{id}` until `status` transitions `processing` → `completed`.
+
+See [references/api/content/documents.md](references/api/content/documents.md) for parameters, response shapes, and a Python pattern.
+
 **Search (documents):** Semantic search over documents. Set `auto_enrich_filters: false` for explicit control; use `filters` (timestamp, entity, `document_type`, etc.) and `ranking_params` (freshness_boost, source_boost; **`content_diversification` is on by default**—set `ranking_params.content_diversification.enabled` to **false** to disable); tune `max_chunks`. See [search-documents.md](references/api/search/search-documents.md).
   - **Filter limits (empirically verified):** `entity` arrays (`any_of`/`all_of`/`none_of`) and `source.values` are capped at **500 IDs** each (HTTP 400 if exceeded). `max_chunks` max is **1000**. Knowledge Graph `entities/id` batch max is **100 IDs**.
   - **`smart` mode:** Only `timestamp` and `source` filters can be set manually; all other filters and `ranking_params` are derived automatically — passing them returns HTTP 400. Use `fast` mode when you supply explicit filters or ranking params.
