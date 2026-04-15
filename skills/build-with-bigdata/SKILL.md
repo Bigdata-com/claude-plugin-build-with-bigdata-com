@@ -89,14 +89,6 @@ The Search service provides real-time and historical search across financial doc
 | Co-mentions | [references/api/search/co-mentions.md](references/api/search/co-mentions.md) |
 | Batch Search | [references/api/search/batch-search.md](references/api/search/batch-search.md) |
 
-### Content (user documents)
-
-Manage user-uploaded documents under `/contents/v1/documents`: **list**, **get metadata**, and **upload (enrich)** files so they become searchable via the Search API and Research Agent.
-
-Upload is a **two-step flow**: `POST /contents/v1/documents` returns a pre-signed S3 `url` + content `id`; then **PUT** the raw file bytes to that `url` (do not send `X-API-KEY` to S3 — the URL is already signed). Enrichment is async — poll `GET /contents/v1/documents/{id}` until `status` transitions `processing` → `completed`.
-
-See [references/api/content/documents.md](references/api/content/documents.md) for parameters, response shapes, and a Python pattern.
-
 **Search (documents):** Semantic search over documents. Set `auto_enrich_filters: false` for explicit control; use `filters` (timestamp, entity, `document_type`, etc.) and `ranking_params` (freshness_boost, source_boost; **`content_diversification` is on by default**—set `ranking_params.content_diversification.enabled` to **false** to disable); tune `max_chunks`. See [search-documents.md](references/api/search/search-documents.md).
   - **Filter limits (empirically verified):** `entity` arrays (`any_of`/`all_of`/`none_of`) and `source.values` are capped at **500 IDs** each (HTTP 400 if exceeded). `max_chunks` max is **1000**. Knowledge Graph `entities/id` batch max is **100 IDs**.
   - **`smart` mode:** Only `timestamp` and `source` filters can be set manually; all other filters and `ranking_params` are derived automatically — passing them returns HTTP 400. Use `fast` mode when you supply explicit filters or ranking params.
@@ -112,3 +104,9 @@ See [references/api/content/documents.md](references/api/content/documents.md) f
 **Co-mentions:** Discover entities frequently mentioned with a topic or focal entity. Uses `text`, `filters`, and `auto_enrich_filters` (no `max_chunks`, no `ranking_params`); optional `limit`; optional **`query.entity_categories`** to return only selected categories (e.g. companies, people). Response grouped by category (companies, places, people, etc.). Resolve entity IDs via Knowledge Graph for names. See [co-mentions.md](references/api/search/co-mentions.md).
 
 **Co-mentions interpretation:** Top entities are not always strategic peers. Media outlets and rating or research names often rank high because they publish or cite the focal entity often. Narrow with a stronger `text` theme, sector or entity filters where supported, or post-filtering so graphs and universes reflect genuine competitors or themes.
+
+### Content (user documents)
+
+Manage user-uploaded documents under `/contents/v1/documents`: **list**, **get metadata**, and **upload (enrich)** files so they become searchable via the Search API and Research Agent.
+
+See [references/api/content/documents.md](references/api/content/documents.md) for parameters, response shapes, and a Python pattern.

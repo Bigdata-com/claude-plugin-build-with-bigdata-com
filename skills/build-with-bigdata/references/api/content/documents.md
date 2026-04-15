@@ -1,6 +1,7 @@
 # Content API — Documents
 
 Manage user-uploaded documents on Bigdata.com: **list**, **get metadata**, and **upload (enrich)**.
+Upload is a **two-step flow**: `POST /contents/v1/documents` returns a pre-signed S3 `url` + content `id`; then **PUT** the raw file bytes to that `url` (do not send `X-API-KEY` to S3 — the URL is already signed). Enrichment is async — poll `GET /contents/v1/documents/{id}` until `status` transitions `processing` → `completed`.
 
 Base URL: `https://api.bigdata.com` · Auth header: `X-API-KEY: <api_key>`
 
