@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Added **reranker threshold** empirical guide (0.8 cuts ~half results, 0.9 leaves very few, 1.0 returns nothing).
   - Added **error patterns** table for common 400/401/429 shapes.
 - **SKILL.md** — Added concise callouts for filter limits (500 IDs, 1000 max_chunks), smart mode restrictions (ranking_params also auto-only), complete document type note, lowercase-only category values, and chunk context expansion pattern.
+- **Release workflow** — `actions/checkout@v6`; `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` for JavaScript actions (Node 20 deprecation). If a release for the tag already exists, `gh release upload … --clobber` instead of failing `gh release create` on reruns.
 
 ## v0.1.0
 

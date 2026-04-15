@@ -4,6 +4,11 @@ on:
   push:
     tags: ["v[0-9]+.[0-9]+.*"]
 
+# Use Node 24 for JavaScript-based actions (avoids Node 20 deprecation on runners).
+# See: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   release:
     name: Create GitHub Release
@@ -13,7 +18,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # Build and release in one step so the zip path is guaranteed to exist when gh runs.
       # gh release create treats asset paths as globs — missing files yield "no matches found".
@@ -30,8 +35,15 @@ jobs:
           ZIP="${GITHUB_WORKSPACE}/dist/claude-plugin-build-with-bigdata-com_${TAG_NAME}.zip"
           test -f "${ZIP}"
           ls -la "${GITHUB_WORKSPACE}/dist/"
-          gh release create "${TAG_NAME}" \
-            --repo "${{ github.repository }}" \
-            --title "Release ${TAG_NAME}" \
-            --generate-notes \
-            "${ZIP}"
+
+          # Create release, or attach/replace asset if this tag was re-run and the release already exists.
+          if gh release view "${TAG_NAME}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            echo "Release ${TAG_NAME} already exists; uploading zip (clobber)."
+            gh release upload "${TAG_NAME}" "${ZIP}" --clobber --repo "${GITHUB_REPOSITORY}"
+          else
+            gh release create "${TAG_NAME}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --title "Release ${TAG_NAME}" \
+              --generate-notes \
+              "${ZIP}"
+          fi
