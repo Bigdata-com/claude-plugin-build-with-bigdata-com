@@ -3,3 +3,4 @@
 tests/__*
 dist
 .env
+.claude

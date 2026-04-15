@@ -50,9 +50,10 @@ Tags must follow this format: `v<major>.<minor>.<patch>`
 
 ### Steps
 
-1. **Test locally** using the workflow above.
-2. Update the `version` field in `.claude-plugin/plugin.json` to match the new tag.
-3. Tag and push:
+1. **Merge workflow changes to `main` first.** The tag must point at a commit that includes [`.github/workflows/cicd.yaml`](.github/workflows/cicd.yaml). If Actions still shows `actions/checkout@v4` or Node 20 warnings, the tag was created from an older commit—move the tag or use a new version tag after merging.
+2. **Test locally** using the workflow above.
+3. Update the `version` field in `.claude-plugin/plugin.json` to match the new tag (same numbers as the tag; omit the leading `v`).
+4. Tag and push:
 
 ```bash
 git tag v0.0.1

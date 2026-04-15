@@ -4,8 +4,8 @@ on:
   push:
     tags: ["v[0-9]+.[0-9]+.*"]
 
-# Use Node 24 for JavaScript-based actions (avoids Node 20 deprecation on runners).
-# See: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+# Opt into Node 24 for all JavaScript actions (checkout, etc.).
+# https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -13,15 +13,19 @@ jobs:
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    # Redundant with workflow env — some runners only read job-level env for JS actions.
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     permissions:
       contents: write
 
     steps:
+      # Pin major version; use fetch-depth 0 so `gh release create --generate-notes` has git history.
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-      # Build and release in one step so the zip path is guaranteed to exist when gh runs.
-      # gh release create treats asset paths as globs — missing files yield "no matches found".
       - name: Build plugin package and create release
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -36,7 +40,6 @@ jobs:
           test -f "${ZIP}"
           ls -la "${GITHUB_WORKSPACE}/dist/"
 
-          # Create release, or attach/replace asset if this tag was re-run and the release already exists.
           if gh release view "${TAG_NAME}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
             echo "Release ${TAG_NAME} already exists; uploading zip (clobber)."
             gh release upload "${TAG_NAME}" "${ZIP}" --clobber --repo "${GITHUB_REPOSITORY}"
