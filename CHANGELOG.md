@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## v0.2.0
+
+### Changed
+
+- **Search (documents) reference** — Major expansion based on empirical API exploration (~115 live requests):
+  - Added **Limits & constraints** table: `entity` arrays capped at 500 IDs, `source.values` capped at 500, `max_chunks` max 1000, `chunk.from` is 1-based, `fiscal_quarter` range 1–4. Includes exact error messages for each limit.
+  - Rewrote **search modes** section with a parameter-level fast vs smart comparison table; clarifies that `ranking_params` and all filters except `timestamp`/`source` are auto-only in smart mode (HTTP 400 if passed manually).
+  - Added **complete `document_type` enumeration** — all five top-level types (`FILING`, `INVESTMENT-RESEARCH`, `NEWS`, `TRANSCRIPT`, `TRANSCRIPT-PRESENTATION`) with every validated subtype (e.g. all SEC filing subtypes, all 15 investment research subtypes, all 12 transcript subtypes).
+  - Added **`category` filter values** — full lowercase-only list (`news`, `news_premium`, `news_public`, `transcripts`, `filings`, `research`, `research_investment_research`, `research_academic_journals`, `podcasts`, `expert_interviews`, `expert_networks`, `newsletters`, `my_files`, `regulatory`). Uppercase returns 400.
+  - Added **`sentiment.ranges`** documentation as the current form; noted deprecated `values` must be lowercase (`positive`/`negative`/`neutral`).
+  - Added new filter sections: **`topic`** (comma-path format, `search_in`), **`reporting_entities`/`reporting_periods`** (fiscal period rules), **`chunk`** (context expansion with `document` ID filter), **`document`** ID filter.
+  - Added **reranker threshold** empirical guide (0.8 cuts ~half results, 0.9 leaves very few, 1.0 returns nothing).
+  - Added **error patterns** table for common 400/401/429 shapes.
+- **SKILL.md** — Added concise callouts for filter limits (500 IDs, 1000 max_chunks), smart mode restrictions (ranking_params also auto-only), complete document type note, lowercase-only category values, and chunk context expansion pattern.
+
 ## v0.1.0
 
 ### Added
