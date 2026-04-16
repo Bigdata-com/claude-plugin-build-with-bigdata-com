@@ -104,3 +104,9 @@ The Search service provides real-time and historical search across financial doc
 **Co-mentions:** Discover entities frequently mentioned with a topic or focal entity. Uses `text`, `filters`, and `auto_enrich_filters` (no `max_chunks`, no `ranking_params`); optional `limit`; optional **`query.entity_categories`** to return only selected categories (e.g. companies, people). Response grouped by category (companies, places, people, etc.). Resolve entity IDs via Knowledge Graph for names. See [co-mentions.md](references/api/search/co-mentions.md).
 
 **Co-mentions interpretation:** Top entities are not always strategic peers. Media outlets and rating or research names often rank high because they publish or cite the focal entity often. Narrow with a stronger `text` theme, sector or entity filters where supported, or post-filtering so graphs and universes reflect genuine competitors or themes.
+
+### Content (user documents)
+
+Manage user-uploaded documents under `/contents/v1/documents`: **list**, **get metadata**, and **upload (enrich)** files so they become searchable via the Search API and Research Agent.
+
+See [references/api/content/documents.md](references/api/content/documents.md) for parameters, response shapes, and a Python pattern.
