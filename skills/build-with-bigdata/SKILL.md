@@ -26,6 +26,8 @@ HEADERS = {
 
 Store the key in the `BIGDATA_API_KEY` environment variable only. Never hardcode credentials. Optional: set `BIGDATA_API_BASE_URL` when using a non-default API host.
 
+> **Scope:** `HEADERS` applies to Bigdata API calls only. Do **not** forward them to presigned URLs (S3 upload or `content.bigdata.com` download) — those URLs are already signed and any added header breaks the signature.
+
 ## Request body shape
 
 Search (documents), Volume, and Co-mentions typically expect the user query inside a **`query` object** in the JSON body (for example `{"query": {"text": "...", "filters": {...}, ...}}`), not a flat top-level `text` field. Confirm the exact shape in the OpenAPI spec or docs for the endpoint you call.
@@ -107,6 +109,6 @@ The Search service provides real-time and historical search across financial doc
 
 ### Content (user documents)
 
-Manage user-uploaded documents under `/contents/v1/documents`: **list**, **get metadata**, and **upload (enrich)** files so they become searchable via the Search API and Research Agent.
+Manage user-uploaded documents under `/contents/v1/documents`: **list**, **get metadata**, **upload (enrich)**, and **download the original file**. Uploaded files become searchable via the Search API and Research Agent once enrichment completes.
 
-See [references/api/content/documents.md](references/api/content/documents.md) for parameters, response shapes, and a Python pattern.
+See [references/api/content/documents.md](references/api/content/documents.md) for the full reference: exact API contract, what "success" means, canonical upload scripts (single-file and batch), anti-patterns, reporting format, and troubleshooting.
