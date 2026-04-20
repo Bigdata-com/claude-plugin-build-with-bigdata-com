@@ -109,6 +109,6 @@ The Search service provides real-time and historical search across financial doc
 
 ### Content (user documents)
 
-Manage user-uploaded documents under `/contents/v1/documents`: **list**, **get metadata**, **upload (enrich)**, and **download the original file**. Uploaded files become searchable via the Search API and Research Agent once enrichment completes.
+Manage user-uploaded documents under `/contents/v1/documents`: **upload** and **download** files, and **list**, **get metadata**, **fetch the processed JSON**, or **delete** existing ones. Uploaded files become searchable via the Search API and Research Agent once processing completes.
 
-See [references/api/content/documents.md](references/api/content/documents.md) for the full reference: exact API contract, what "success" means, canonical upload scripts (single-file and batch), anti-patterns, reporting format, and troubleshooting.
+See [references/api/content/main.md](references/api/content/main.md) — it covers the shared rules (auth header, 400 → check live docs, `requests` vs `curl`, path pitfall) and links to the per-operation reference files.
