@@ -26,7 +26,6 @@ HEADERS = {
 
 Store the key in the `BIGDATA_API_KEY` environment variable only. Never hardcode credentials. Optional: set `BIGDATA_API_BASE_URL` when using a non-default API host.
 
-> **Scope:** `HEADERS` applies to Bigdata API calls only. Do **not** forward them to presigned URLs (S3 upload or `content.bigdata.com` download) — those URLs are already signed and any added header breaks the signature.
 
 ## Request body shape
 

@@ -13,7 +13,7 @@ Prefer Python `requests` for programmatic flows — the per-operation pages use 
 
 ## If a call returns HTTP 400
 
-The shape documented in this skill may be stale. Check the live reference first, then query the `docs.bigdata.com` Docs MCP server (`server="docs.bigdata.com", toolName="search"`) before debugging the rest of your code — the API can add required fields or rename parameters between skill releases.
+The shape documented in this skill may be stale. Check the live reference first, then query the `docs.bigdata.com` Docs MCP server (`server="docs.bigdata.com"`) before debugging the rest of your code — the API can add required fields or rename parameters between skill releases.
 
 **Live reference:** [docs.bigdata.com/api-reference/documents/](https://docs.bigdata.com/api-reference/documents/)
 
