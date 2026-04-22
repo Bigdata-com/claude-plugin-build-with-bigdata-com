@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## v0.3.0
+
+### Added
+
+- **Content API — new operations** — Expanded the Content reference from list/metadata/upload to the full operation set:
+  - **Download** (`GET …/original`) — two-step pre-signed URL flow; documents the critical no-headers rule on the S3 PUT (any extra header causes `403 SignatureDoesNotMatch`) and a proxy note for `content.bigdata.com`.
+  - **Annotated JSON** (`GET …/annotated`) — returns Bigdata's processed output (title/body blocks, sentiment, entities, events, metrics); only available after `status: completed`.
+  - **Delete** (`DELETE …/{id}`) — permanent removal; documents the `PRIVATE_CONTENT_NOT_FOUND` error shape.
+
+### Changed
+
+- **SKILL.md** — Content section updated to list all six operations and link to the new content structure.
+
+### Removed
+
+- **`references/api/content/documents.md`** — superseded by the per-operation files.
+
 ## v0.2.0
 
 ### Changed
