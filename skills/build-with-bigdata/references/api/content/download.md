@@ -2,7 +2,7 @@
 
 Two-step flow: ask the API for a pre-signed download URL, then GET the bytes from it.
 
-## Step 1 — `GET /contents/v1/documents/{document_id}/original`
+## Step 1 — `GET https://api.bigdata.com/contents/v1/documents/{document_id}/original`
 
 **Request**
 

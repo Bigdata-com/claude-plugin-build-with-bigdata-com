@@ -3,13 +3,13 @@
 Get document and chunk volume statistics over time for a search query, aggregated by date with optional sentiment. Use to plan downstream search jobs or to analyze coverage time series.
 
 - API reference: [docs.bigdata.com/api-reference/search/get-volume-data](https://docs.bigdata.com/api-reference/search/get-volume-data)
-- Full schema: OpenAPI [openapi_search_service.json](https://docs.bigdata.com/api-rest/openapi/openapi_search_service.json) — path `POST /v1/search/volume`
+- Full schema: OpenAPI [openapi_search_service.json](https://docs.bigdata.com/api-rest/openapi/openapi_search_service.json) — path `POST https://api.bigdata.com/v1/search/volume`
 
 ## Endpoint
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/search/volume` | Return volume (and totals) for the given query over the requested time range |
+| Method | URL | Description |
+|--------|-----|-------------|
+| POST | `https://api.bigdata.com/v1/search/volume` | Return volume (and totals) for the given query over the requested time range |
 
 ## Request body
 

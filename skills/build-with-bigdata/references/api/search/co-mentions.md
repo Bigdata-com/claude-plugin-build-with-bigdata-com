@@ -3,13 +3,13 @@
 Discover entities frequently mentioned together with your search query or focal entity. Returns entities grouped by category (companies, places, people, organizations, products, concepts) with chunk and headline counts. Use for thematic baskets, competitive mapping, and relationship discovery.
 
 - API reference: [docs.bigdata.com/api-reference/search/get-co-mentions](https://docs.bigdata.com/api-reference/search/get-co-mentions)
-- Full schema: OpenAPI [openapi_search_service.json](https://docs.bigdata.com/api-rest/openapi/openapi_search_service.json) — path `POST /v1/search/co-mentions/entities`
+- Full schema: OpenAPI [openapi_search_service.json](https://docs.bigdata.com/api-rest/openapi/openapi_search_service.json) — path `POST https://api.bigdata.com/v1/search/co-mentions/entities`
 
 ## Endpoint
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/search/co-mentions/entities` | Connected entities for the given query; optional **limit** (max 1000) |
+| Method | URL | Description |
+|--------|-----|-------------|
+| POST | `https://api.bigdata.com/v1/search/co-mentions/entities` | Connected entities for the given query; optional **limit** (max 1000) |
 
 ## Request body
 
@@ -22,7 +22,7 @@ Discover entities frequently mentioned together with your search query or focal 
 - **results**: Object with category keys, each an array of entities:
   - **companies**, **places**, **people**, **organizations**, **products**, **concepts**
 - Each entity has: **id** (RavenPack entity ID), **total_chunks_count**, **total_headlines_count**.
-- Resolve **id** to names via `POST /v1/knowledge-graph/entities/id` with `{"values": [id1, id2, ...]}` (max 100 per request).
+- Resolve **id** to names via `POST https://api.bigdata.com/v1/knowledge-graph/entities/id` with `{"values": [id1, id2, ...]}` (max 100 per request).
 
 ## Best practices
 

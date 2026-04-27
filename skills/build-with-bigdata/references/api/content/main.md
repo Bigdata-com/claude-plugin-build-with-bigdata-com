@@ -19,14 +19,14 @@ The shape documented in this skill may be stale. Check the live reference first,
 
 ## Path pitfall — `contents` is plural
 
-Base path is `/contents/v1/documents`. Calling `/content/v1/...` (singular) or any unknown sub-path (e.g. `/download`, `/file`) returns AWS API Gateway's `{"message": "Missing Authentication Token"}` — which **looks like** an auth failure but means "no such route." If a call with a valid key returns `MissingAuthenticationToken`, check the path spelling before anything else.
+Base path is `https://api.bigdata.com/contents/v1/documents`. Calling `/content/v1/...` (singular) or any unknown sub-path (e.g. `/download`, `/file`) returns AWS API Gateway's `{"message": "Missing Authentication Token"}` — which **looks like** an auth failure but means "no such route." If a call with a valid key returns `MissingAuthenticationToken`, check the path spelling before anything else.
 
 ## Available operations
 
 | Operation | File | Endpoint |
 |---|---|---|
-| Upload a file (two-step) | [upload.md](upload.md) | `POST /contents/v1/documents` → `PUT <presigned url>` |
-| Download the original file (two-step) | [download.md](download.md) | `GET /contents/v1/documents/{id}/original` → `GET <presigned url>` |
-| List documents / get one document's metadata | [metadata.md](metadata.md) | `GET /contents/v1/documents` and `GET /contents/v1/documents/{id}` |
-| Fetch the processed JSON (sentiment, entities, events…) | [annotated.md](annotated.md) | `GET /contents/v1/documents/{id}/annotated` |
-| Delete a document | [delete.md](delete.md) | `DELETE /contents/v1/documents/{id}` |
+| Upload a file (two-step) | [upload.md](upload.md) | `POST https://api.bigdata.com/contents/v1/documents` → `PUT <presigned url>` |
+| Download the original file (two-step) | [download.md](download.md) | `GET https://api.bigdata.com/contents/v1/documents/{id}/original` → `GET <presigned url>` |
+| List documents / get one document's metadata | [metadata.md](metadata.md) | `GET https://api.bigdata.com/contents/v1/documents` and `GET https://api.bigdata.com/contents/v1/documents/{id}` |
+| Fetch the processed JSON (sentiment, entities, events…) | [annotated.md](annotated.md) | `GET https://api.bigdata.com/contents/v1/documents/{id}/annotated` |
+| Delete a document | [delete.md](delete.md) | `DELETE https://api.bigdata.com/contents/v1/documents/{id}` |

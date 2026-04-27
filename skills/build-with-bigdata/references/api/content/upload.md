@@ -2,7 +2,7 @@
 
 Two-step flow: ask the API for a pre-signed URL, then PUT the raw bytes to it. Processing is async — call [metadata.md](metadata.md) on the returned `id` to check `status`.
 
-## Step 1 — `POST /contents/v1/documents`
+## Step 1 — `POST https://api.bigdata.com/contents/v1/documents`
 
 Reserve a slot and get the pre-signed upload URL.
 
@@ -90,4 +90,4 @@ curl -sf -X PUT "$URL" -T "$FILE"
 
 ## Symptom to recognize
 
-POST returns an `id` but later `GET /contents/v1/documents/{id}` shows `raw_size: 0` and `status: pending` indefinitely → the PUT silently failed, almost always because a header got added. Re-run Step 2 with no headers.
+POST returns an `id` but later `GET https://api.bigdata.com/contents/v1/documents/{id}` shows `raw_size: 0` and `status: pending` indefinitely → the PUT silently failed, almost always because a header got added. Re-run Step 2 with no headers.
