@@ -1,4 +1,4 @@
-# Delete a document — `DELETE /contents/v1/documents/{document_id}`
+# Delete a document — `DELETE https://api.bigdata.com/contents/v1/documents/{document_id}`
 
 Permanently removes a document you own.
 

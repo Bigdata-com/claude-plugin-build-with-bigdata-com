@@ -2,7 +2,7 @@
 
 Two related read endpoints that return the same per-document record shape.
 
-## List — `GET /contents/v1/documents`
+## List — `GET https://api.bigdata.com/contents/v1/documents`
 
 Paginated list of documents you uploaded or that are shared with your org.
 
@@ -53,7 +53,7 @@ Query params (all optional):
 
 **Eventual consistency:** right after an upload, the document may not appear immediately. Wait 3–5 seconds and retry before concluding it's missing.
 
-## Get — `GET /contents/v1/documents/{document_id}`
+## Get — `GET https://api.bigdata.com/contents/v1/documents/{document_id}`
 
 Fetch a single document's metadata. Returns the same schema as one entry in `results[]` above.
 

@@ -1,4 +1,4 @@
-# Fetch the processed JSON — `GET /contents/v1/documents/{document_id}/annotated`
+# Fetch the processed JSON — `GET https://api.bigdata.com/contents/v1/documents/{document_id}/annotated`
 
 Returns the structured result of Bigdata's processing: title/body blocks plus analytics (sentiment, detected entities, events, metrics). This is different from [download.md](download.md), which returns the raw original file.
 

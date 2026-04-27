@@ -3,13 +3,13 @@
 Semantic search over financial documents, news, earnings transcripts, analyst reports, SEC filings, and user-uploaded content. Returns relevance-ranked chunks with source and timestamp.
 
 - API reference: [docs.bigdata.com/api-reference/search/search-documents](https://docs.bigdata.com/api-reference/search/search-documents) (includes `ranking_params.content_diversification`)
-- Full schema: OpenAPI [openapi_search_service.json](https://docs.bigdata.com/api-rest/openapi/openapi_search_service.json) — path `POST /v1/search`
+- Full schema: OpenAPI [openapi_search_service.json](https://docs.bigdata.com/api-rest/openapi/openapi_search_service.json) — path `POST https://api.bigdata.com/v1/search`
 
 ## Endpoint
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/search` | Search documents; body has `query` (and optional `search_mode`, `include_audit`) |
+| Method | URL | Description |
+|--------|-----|-------------|
+| POST | `https://api.bigdata.com/v1/search` | Search documents; body has `query` (and optional `search_mode`, `include_audit`) |
 
 ## Limits & constraints
 
@@ -90,7 +90,7 @@ ISO 8601 UTC. Both fields optional individually.
 
 - `search_in`: `"HEADLINE"` | `"BODY"` | `"ALL"` (default `ALL`)
 - **Max 500 IDs per array.** Exceeding returns "Your query is too complex."
-- Resolve company names to IDs via `POST /v1/knowledge-graph/companies` before filtering.
+- Resolve company names to IDs via `POST https://api.bigdata.com/v1/knowledge-graph/companies` before filtering.
 
 ### `document_type`
 
@@ -125,7 +125,7 @@ Complete, validated type/subtype enumeration (extracted from API validation erro
 }
 ```
 
-**Max 500 source IDs.** Discover source IDs via `POST /v1/knowledge-graph/sources`.
+**Max 500 source IDs.** Discover source IDs via `POST https://api.bigdata.com/v1/knowledge-graph/sources`.
 
 ### `category`
 

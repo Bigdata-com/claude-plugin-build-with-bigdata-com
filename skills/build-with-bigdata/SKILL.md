@@ -26,7 +26,6 @@ HEADERS = {
 
 Store the key in the `BIGDATA_API_KEY` environment variable only. Never hardcode credentials. Optional: set `BIGDATA_API_BASE_URL` when using a non-default API host.
 
-
 ## Request body shape
 
 Search (documents), Volume, and Co-mentions typically expect the user query inside a **`query` object** in the JSON body (for example `{"query": {"text": "...", "filters": {...}, ...}}`), not a flat top-level `text` field. Confirm the exact shape in the OpenAPI spec or docs for the endpoint you call.
@@ -108,6 +107,6 @@ The Search service provides real-time and historical search across financial doc
 
 ### Content (user documents)
 
-Manage user-uploaded documents under `/contents/v1/documents`: **upload** and **download** files, and **list**, **get metadata**, **fetch the processed JSON**, or **delete** existing ones. Uploaded files become searchable via the Search API and Research Agent once processing completes.
+Manage user-uploaded documents under `https://api.bigdata.com/contents/v1/documents`: **upload** and **download** files, and **list**, **get metadata**, **fetch the processed JSON**, or **delete** existing ones. Uploaded files become searchable via the Search API and Research Agent once processing completes.
 
 See [references/api/content/main.md](references/api/content/main.md) — it covers the shared rules (auth header, 400 → check live docs, `requests` vs `curl`, path pitfall) and links to the per-operation reference files.

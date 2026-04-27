@@ -7,25 +7,25 @@ Resolve company and entity names to IDs, and IDs back to names and metadata. Use
 
 ## Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/knowledge-graph/companies` | Find companies by name, ticker, website, ISIN, etc. |
-| POST | `/v1/knowledge-graph/entities/id` | Resolve up to 100 entity IDs to full entity details |
-| POST | `/v1/knowledge-graph/sources` | Find sources by name; filter by country, rank, category |
-| GET | `/v1/knowledge-graph/companies/sectors` | List available sectors for company filters |
+| Method | URL | Description |
+|--------|-----|-------------|
+| POST | `https://api.bigdata.com/v1/knowledge-graph/companies` | Find companies by name, ticker, website, ISIN, etc. |
+| POST | `https://api.bigdata.com/v1/knowledge-graph/entities/id` | Resolve up to 100 entity IDs to full entity details |
+| POST | `https://api.bigdata.com/v1/knowledge-graph/sources` | Find sources by name; filter by country, rank, category |
+| GET | `https://api.bigdata.com/v1/knowledge-graph/companies/sectors` | List available sectors for company filters |
 
-## Companies — `POST /v1/knowledge-graph/companies`
+## Companies — `POST https://api.bigdata.com/v1/knowledge-graph/companies`
 
 **Request (FindCompaniesRequest):** At least one of:
 
 - **query**: Partial or complete company name, webpage, ticker, ISIN, SEDOL, or CUSIP.
 - **types**: Array of `"PUBLIC"` or `"PRIVATE"`.
 - **countries**: ISO 3166-1 alpha-2 codes (e.g. `["US", "FR"]`).
-- **sectors**: Array of sector names (use `/companies/sectors` to list).
+- **sectors**: Array of sector names (use `https://api.bigdata.com/v1/knowledge-graph/companies/sectors` to list).
 
 **Response:** Array of **Company** objects: `id`, `name`, `type`, `country`, `sector`, `industry_group`, `industry`, `webpage`, `listing_values`, `isin_values`, etc. Use `id` in Search/Volume/Co-mentions entity filters.
 
-## Entities by ID — `POST /v1/knowledge-graph/entities/id`
+## Entities by ID — `POST https://api.bigdata.com/v1/knowledge-graph/entities/id`
 
 **Request (GetEntitiesByIdRequest):**
 
@@ -33,7 +33,7 @@ Resolve company and entity names to IDs, and IDs back to names and metadata. Use
 
 **Response (GetEntitiesByIdResponse):** **results** object — keys are entity IDs, values are **Entity** objects with `id`, `name`, `category`, `type`, `country`, `sector`, and identifier arrays. Use to resolve IDs from Search chunks or Co-mentions responses.
 
-## Sources — `POST /v1/knowledge-graph/sources`
+## Sources — `POST https://api.bigdata.com/v1/knowledge-graph/sources`
 
 **Request (FindSourcesRequest):** Optional filters:
 

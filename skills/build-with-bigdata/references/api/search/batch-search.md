@@ -7,20 +7,20 @@ Process large volumes of search queries asynchronously at **50% lower cost** ($0
 
 ## Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/v1/search/batches` | Create a batch job → returns `batch_id` + `presigned_url` |
+| Method | URL | Description |
+|--------|-----|-------------|
+| POST | `https://api.bigdata.com/v1/search/batches` | Create a batch job → returns `batch_id` + `presigned_url` |
 | PUT | `presigned_url` | Upload `.jsonl` input file to the presigned S3 URL |
-| GET | `/v1/search/batches/{batch_id}` | Poll job status → returns `status` + `output_file_url` |
+| GET | `https://api.bigdata.com/v1/search/batches/{batch_id}` | Poll job status → returns `status` + `output_file_url` |
 | GET | `output_file_url` | Download `.jsonl` results (available when status is `completed`) |
 
 ## Workflow
 
 ```
-1. POST /v1/search/batches         → get batch_id + presigned_url
-2. PUT  presigned_url              → upload .jsonl input file
-3. GET  /v1/search/batches/{id}    → poll until status = "completed"
-4. GET  output_file_url            → download .jsonl results
+1. POST https://api.bigdata.com/v1/search/batches         → get batch_id + presigned_url
+2. PUT  presigned_url                                      → upload .jsonl input file
+3. GET  https://api.bigdata.com/v1/search/batches/{id}     → poll until status = "completed"
+4. GET  output_file_url                                    → download .jsonl results
 ```
 
 ## Environment and headers (Python)
