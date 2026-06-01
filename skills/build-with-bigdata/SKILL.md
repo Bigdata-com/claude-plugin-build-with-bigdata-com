@@ -107,6 +107,6 @@ The Search service provides real-time and historical search across financial doc
 
 ### Content (user documents)
 
-Manage user-uploaded documents under `https://api.bigdata.com/contents/v1/documents`: **upload** and **download** files, and **list**, **get metadata**, **fetch the processed JSON**, or **delete** existing ones. Uploaded files become searchable via the Search API and Research Agent once processing completes.
+Manage user-uploaded documents under `https://api.bigdata.com/contents/v1/documents`: **upload** and **download** files, **list**, **get metadata**, **update metadata** (sharing, tags), **fetch the processed JSON**, or **delete** existing ones, plus **create / list tags** under `https://api.bigdata.com/contents/v1/tags`. Uploaded files become searchable via the Search API and Research Agent once processing completes.
 
 See [references/api/content/main.md](references/api/content/main.md) — it covers the shared rules (auth header, 400 → check live docs, `requests` vs `curl`, path pitfall) and links to the per-operation reference files.
