@@ -57,6 +57,7 @@ Empirically verified. Exceeding any limit returns HTTP 400.
 | `filters.sentiment` | ✅ manual | ❌ auto-only (400 if set) |
 | `filters.category` | ✅ manual | ❌ auto-only (400 if set) |
 | `filters.topic` | ✅ manual | ❌ auto-only (400 if set) |
+| `filters.tag` | ✅ manual | ❌ auto-only (400 if set) |
 | `ranking_params` | ✅ manual | ❌ auto-only (400 if set) |
 | `ranking_params.content_diversification` | ✅ manual | ❌ auto-only |
 
@@ -139,6 +140,27 @@ Selects a group of sources by content category. Values are **lowercase** (upperc
 ```
 
 Valid values: `news`, `news_premium`, `news_public`, `transcripts`, `filings`, `research`, `research_investment_research`, `research_academic_journals`, `podcasts`, `expert_interviews`, `expert_networks`, `newsletters`, `my_files`, `regulatory`
+
+### `tag` (private uploaded files)
+
+Restrict the search to your uploaded private documents that carry specific tags.
+
+```json
+"tag": {
+  "any_of": ["Research Team", "Q1-Reports"]
+}
+```
+
+- `any_of` (**required**): a document matches if it carries **at least one** of these tags. There is no `all_of` / `none_of`.
+- Tags are matched by **name** — note this differs from the Content API's `PATCH /contents/v1/documents/{id}`, which assigns tags by **ID** (UUID). Here you pass the human-readable names. Create/list tags via the Content API ([../content/tags.md](../content/tags.md)).
+- Keyword matching on the tag is exact-name; pair with `category: ["my_files"]` to scope the search to your uploaded content:
+
+```json
+"filters": {
+  "category": { "mode": "INCLUDE", "values": ["my_files"] },
+  "tag":      { "any_of": ["Research Team"] }
+}
+```
 
 ### `keyword`
 
