@@ -74,6 +74,54 @@ Headers: X-API-KEY
 | 403 | Document not shared with your org |
 | 404 | Document not found |
 
+## Update — `PATCH https://api.bigdata.com/contents/v1/documents/{document_id}`
+
+Partially update a document's metadata. Send **only** the fields you want to change. Returns the updated document record (same schema as List / Get above).
+
+**Request**
+
+```
+PATCH https://api.bigdata.com/contents/v1/documents/{document_id}
+Headers: X-API-KEY, Content-Type: application/json
+Body (all fields optional — include only what you change):
+{
+  "share_with_org": false,                              // bool — true: whole org can access; false: only you
+  "tags": ["019e3a99-6952-7dd4-adf5-b0b341959e11"]      // array of tag IDs (UUIDs); REPLACES the current set
+}
+```
+
+- **`share_with_org`** — `true` makes the document available to all members of your org; `false` restricts it to you.
+- **`tags`** — the full list of tag **IDs** you want applied. This **replaces** the document's current tag set (it does not merge), so to add or remove a tag, send the complete list you want to end up with. Send `[]` to clear all tags.
+
+**Tag IDs vs names — common 400:** unlike [upload.md](upload.md), where `tags` are passed by **name** (e.g. `["Research Team"]`), PATCH requires tag **IDs** (UUIDs). Get IDs from [tags.md](tags.md) (create or list tags). Any ID that doesn't exist makes the whole call fail with `400 INVALID_TAGS_ERROR`.
+
+**Response 200** — the updated document record (same schema as List / Get).
+
+**Errors**
+
+| Status | Meaning |
+|---|---|
+| 400 | Invalid body — e.g. one or more tag IDs do not exist (`errorCode: INVALID_TAGS_ERROR`) |
+| 401 | Invalid or missing API key |
+| 403 | You do not have permission to update this document |
+| 404 | Document not found |
+
+**Python**
+
+```python
+# Share with the whole org and replace its tag set in one call.
+r = requests.patch(
+    f"https://api.bigdata.com/contents/v1/documents/{document_id}",
+    headers=HEADERS,
+    json={
+        "share_with_org": True,
+        "tags": ["019e3a99-6952-7dd4-adf5-b0b341959e11"],  # tag IDs, not names
+    },
+)
+r.raise_for_status()
+updated = r.json()
+```
+
 ## Typical use
 
 Poll Get right after an upload to watch `status` go `pending` → `processing` → `completed`:
@@ -82,7 +130,7 @@ Poll Get right after an upload to watch `status` go `pending` → `processing` �
 import time, requests
 
 while True:
-    r = requests.get(f"{BASE}/documents/{doc_id}", headers=HEADERS)
+    r = requests.get(f"https://api.bigdata.com/contents/v1/documents/{doc_id}", headers=HEADERS)
     r.raise_for_status()
     status = r.json()["status"]
     if status in ("completed", "failed"):

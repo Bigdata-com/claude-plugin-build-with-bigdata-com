@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## v0.4.0
+
+### Added
+
+- **Content API — update document metadata** — Documented `PATCH …/documents/{id}` in [content/metadata.md](skills/build-with-bigdata/references/api/content/metadata.md): partial updates for `share_with_org` and `tags`.
+- **Content API — tags** — New [content/tags.md](skills/build-with-bigdata/references/api/content/tags.md) covering the tags resource: **Create tag** (`POST …/tags`) and **List tags** (`GET …/tags`).
+- **Search (documents) — `tag` filter** — Added the `tag` filter to [search-documents.md](skills/build-with-bigdata/references/api/search/search-documents.md).
+
+### Changed
+
+- **Tag IDs vs names** — Called out the asymmetry across the docs: the Content API assigns tags by **ID** (UUID) at `PATCH` time, while Upload `tag` property and Search `tag` filter match by **name**. Cross-linked the relevant files so the distinction is hard to miss.
+- **content/main.md** — Operations table now lists the `PATCH` (update metadata) and `tags` rows, with a note that tag endpoints live under `/contents/v1/tags` (not `/documents`).
+- **SKILL.md** — Content summary updated to mention update metadata (sharing, tags) and create/list tags.
+
 ## v0.3.0
 
 ### Added
@@ -19,7 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 
-- **`references/api/content/documents.md`** — superseded by the per-operation files.
+- `**references/api/content/documents.md`** — superseded by the per-operation files.
 
 ## v0.2.0
 
@@ -29,9 +43,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Added **Limits & constraints** table: `entity` arrays capped at 500 IDs, `source.values` capped at 500, `max_chunks` max 1000, `chunk.from` is 1-based, `fiscal_quarter` range 1–4. Includes exact error messages for each limit.
   - Rewrote **search modes** section with a parameter-level fast vs smart comparison table; clarifies that `ranking_params` and all filters except `timestamp`/`source` are auto-only in smart mode (HTTP 400 if passed manually).
   - Added **complete `document_type` enumeration** — all five top-level types (`FILING`, `INVESTMENT-RESEARCH`, `NEWS`, `TRANSCRIPT`, `TRANSCRIPT-PRESENTATION`) with every validated subtype (e.g. all SEC filing subtypes, all 15 investment research subtypes, all 12 transcript subtypes).
-  - Added **`category` filter values** — full lowercase-only list (`news`, `news_premium`, `news_public`, `transcripts`, `filings`, `research`, `research_investment_research`, `research_academic_journals`, `podcasts`, `expert_interviews`, `expert_networks`, `newsletters`, `my_files`, `regulatory`). Uppercase returns 400.
-  - Added **`sentiment.ranges`** documentation as the current form; noted deprecated `values` must be lowercase (`positive`/`negative`/`neutral`).
-  - Added new filter sections: **`topic`** (comma-path format, `search_in`), **`reporting_entities`/`reporting_periods`** (fiscal period rules), **`chunk`** (context expansion with `document` ID filter), **`document`** ID filter.
+  - Added `**category` filter values** — full lowercase-only list (`news`, `news_premium`, `news_public`, `transcripts`, `filings`, `research`, `research_investment_research`, `research_academic_journals`, `podcasts`, `expert_interviews`, `expert_networks`, `newsletters`, `my_files`, `regulatory`). Uppercase returns 400.
+  - Added `**sentiment.ranges`** documentation as the current form; noted deprecated `values` must be lowercase (`positive`/`negative`/`neutral`).
+  - Added new filter sections: `**topic**` (comma-path format, `search_in`), `**reporting_entities`/`reporting_periods**` (fiscal period rules), `**chunk**` (context expansion with `document` ID filter), `**document**` ID filter.
   - Added **reranker threshold** empirical guide (0.8 cuts ~half results, 0.9 leaves very few, 1.0 returns nothing).
   - Added **error patterns** table for common 400/401/429 shapes.
 - **SKILL.md** — Added concise callouts for filter limits (500 IDs, 1000 max_chunks), smart mode restrictions (ranking_params also auto-only), complete document type note, lowercase-only category values, and chunk context expansion pattern.
@@ -43,7 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **README** — Work-in-progress notice; table of APIs covered by bundled references; prominent link to [bigdata-cookbook Sample_Scripts](https://github.com/Bigdata-com/bigdata-cookbook/tree/main/API_Tutorials/Sample_Scripts); direct links to [build-with-bigdata SKILL.md](skills/build-with-bigdata/SKILL.md) (repository path + GitHub); documents `.mcp.json` in “What’s included.”
 - **Search (documents) reference** — Document `ranking_params.content_diversification` (enabled by default; disable via `enabled: false`); `document_type` **INVESTMENT_RESEARCH** and subtypes; optional chunk **text_locations** (`paragraph_num`, `sentence_num`); **SEC_DEF_14A** filing subtype for proxy statements.
-- **Co-mentions reference** — Document optional **`query.entity_categories`** to filter returned entity buckets.
+- **Co-mentions reference** — Document optional `**query.entity_categories`** to filter returned entity buckets.
 
 ### Changed
 
@@ -51,7 +65,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 
-- **`tests/bigdata_use_cases_tests.md`** and the `tests/` directory — example prompts and workflows are maintained in [bigdata-cookbook Sample_Scripts](https://github.com/Bigdata-com/bigdata-cookbook/tree/main/API_Tutorials/Sample_Scripts) instead to keep the plugin package small.
+- `**tests/bigdata_use_cases_tests.md`** and the `tests/` directory — example prompts and workflows are maintained in [bigdata-cookbook Sample_Scripts](https://github.com/Bigdata-com/bigdata-cookbook/tree/main/API_Tutorials/Sample_Scripts) instead to keep the plugin package small.
 
 ### Fixed
 
@@ -77,3 +91,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Skill `build-with-bigdata` now covers Search (documents), Volume, Knowledge Graph, and Co-mentions in addition to Batch Search.
+

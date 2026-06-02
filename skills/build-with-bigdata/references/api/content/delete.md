@@ -19,6 +19,9 @@ Headers: X-API-KEY
 ## Python
 
 ```python
-r = requests.delete(f"{BASE}/documents/{document_id}", headers=HEADERS)
+r = requests.delete(
+    f"https://api.bigdata.com/contents/v1/documents/{document_id}",
+    headers=HEADERS,
+)
 r.raise_for_status()
 ```

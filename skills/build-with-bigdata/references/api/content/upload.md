@@ -51,7 +51,6 @@ Body:    raw file bytes
 import os, requests
 
 API_KEY = os.environ["BIGDATA_API_KEY"]
-BASE    = "https://api.bigdata.com/contents/v1"
 
 def upload_file(path, tags=None, share_with_org=False):
     body = {"file_name": os.path.basename(path)}
@@ -59,7 +58,7 @@ def upload_file(path, tags=None, share_with_org=False):
     if share_with_org: body["share_with_org"] = True
 
     init = requests.post(
-        f"{BASE}/documents",
+        "https://api.bigdata.com/contents/v1/documents",
         headers={"X-API-KEY": API_KEY, "Content-Type": "application/json"},
         json=body,
     )

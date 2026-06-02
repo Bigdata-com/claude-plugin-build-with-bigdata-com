@@ -28,5 +28,9 @@ Base path is `https://api.bigdata.com/contents/v1/documents`. Calling `/content/
 | Upload a file (two-step) | [upload.md](upload.md) | `POST https://api.bigdata.com/contents/v1/documents` → `PUT <presigned url>` |
 | Download the original file (two-step) | [download.md](download.md) | `GET https://api.bigdata.com/contents/v1/documents/{id}/original` → `GET <presigned url>` |
 | List documents / get one document's metadata | [metadata.md](metadata.md) | `GET https://api.bigdata.com/contents/v1/documents` and `GET https://api.bigdata.com/contents/v1/documents/{id}` |
+| Update a document's metadata (sharing, tags) | [metadata.md](metadata.md) | `PATCH https://api.bigdata.com/contents/v1/documents/{id}` |
 | Fetch the processed JSON (sentiment, entities, events…) | [annotated.md](annotated.md) | `GET https://api.bigdata.com/contents/v1/documents/{id}/annotated` |
 | Delete a document | [delete.md](delete.md) | `DELETE https://api.bigdata.com/contents/v1/documents/{id}` |
+| Create / list tags (and assign them to documents) | [tags.md](tags.md) | `POST` and `GET https://api.bigdata.com/contents/v1/tags` |
+
+Tags are independent assets and they are created using the `POST https://api.bigdata.com/contents/v1/tags`. Assigning a tag to an existing document is done via the document `PATCH https://api.bigdata.com/contents/v1/documents/{id}` using tag **IDs** — see [tags.md](tags.md).
