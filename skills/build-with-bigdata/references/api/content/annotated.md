@@ -26,7 +26,10 @@ Headers: X-API-KEY
 ## Python
 
 ```python
-r = requests.get(f"{BASE}/documents/{document_id}/annotated", headers=HEADERS)
+r = requests.get(
+    f"https://api.bigdata.com/contents/v1/documents/{document_id}/annotated",
+    headers=HEADERS,
+)
 r.raise_for_status()
 data = r.json()
 # data["content"]["body"] for the processed text blocks

@@ -111,7 +111,7 @@ Body (all fields optional — include only what you change):
 ```python
 # Share with the whole org and replace its tag set in one call.
 r = requests.patch(
-    f"{BASE}/documents/{document_id}",
+    f"https://api.bigdata.com/contents/v1/documents/{document_id}",
     headers=HEADERS,
     json={
         "share_with_org": True,
@@ -130,7 +130,7 @@ Poll Get right after an upload to watch `status` go `pending` → `processing` �
 import time, requests
 
 while True:
-    r = requests.get(f"{BASE}/documents/{doc_id}", headers=HEADERS)
+    r = requests.get(f"https://api.bigdata.com/contents/v1/documents/{doc_id}", headers=HEADERS)
     r.raise_for_status()
     status = r.json()["status"]
     if status in ("completed", "failed"):

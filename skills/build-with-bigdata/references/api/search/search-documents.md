@@ -141,7 +141,7 @@ Selects a group of sources by content category. Values are **lowercase** (upperc
 
 Valid values: `news`, `news_premium`, `news_public`, `transcripts`, `filings`, `research`, `research_investment_research`, `research_academic_journals`, `podcasts`, `expert_interviews`, `expert_networks`, `newsletters`, `my_files`, `regulatory`
 
-### `tag` (private uploaded files)
+### `tag` — by tag name (private uploaded files)
 
 Restrict the search to your uploaded private documents that carry specific tags.
 

@@ -92,7 +92,7 @@ That array **replaces** the document's entire tag set (it does not merge), so se
 ```python
 # 1. Create a tag (or list tags) to get its id.
 r = requests.post(
-    f"{BASE}/tags",
+    "https://api.bigdata.com/contents/v1/tags",
     headers=HEADERS,
     json={"tag_name": "Research Team"},
 )
@@ -100,13 +100,17 @@ r.raise_for_status()
 tag_id = r.json()["id"]
 
 # Or look up an existing tag by name prefix.
-r = requests.get(f"{BASE}/tags", headers=HEADERS, params={"prefix": "broker:"})
+r = requests.get(
+    "https://api.bigdata.com/contents/v1/tags",
+    headers=HEADERS,
+    params={"prefix": "broker:"},
+)
 r.raise_for_status()
 tags = r.json()["results"]
 
 # 2. Assign it to a document (replaces the document's current tag set).
 r = requests.patch(
-    f"{BASE}/documents/{document_id}",
+    f"https://api.bigdata.com/contents/v1/documents/{document_id}",
     headers=HEADERS,
     json={"tags": [tag_id]},
 )

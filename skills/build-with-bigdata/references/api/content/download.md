@@ -30,11 +30,13 @@ URL is time-limited (~24h). Host is `content.bigdata.com`, **not** `api.bigdata.
 ```python
 import requests
 
-BASE    = "https://api.bigdata.com/contents/v1"
 HEADERS = {"X-API-KEY": API_KEY}
 
 def download_file(document_id, out_path):
-    meta = requests.get(f"{BASE}/documents/{document_id}/original", headers=HEADERS)
+    meta = requests.get(
+        f"https://api.bigdata.com/contents/v1/documents/{document_id}/original",
+        headers=HEADERS,
+    )
     meta.raise_for_status()
     # CRITICAL: no headers= here — the URL is already signed.
     bytes_ = requests.get(meta.json()["url"]).content

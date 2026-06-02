@@ -33,4 +33,4 @@ Base path is `https://api.bigdata.com/contents/v1/documents`. Calling `/content/
 | Delete a document | [delete.md](delete.md) | `DELETE https://api.bigdata.com/contents/v1/documents/{id}` |
 | Create / list tags (and assign them to documents) | [tags.md](tags.md) | `POST` and `GET https://api.bigdata.com/contents/v1/tags` |
 
-Tag endpoints live under `/contents/v1/tags` (not `/documents`). Assigning a tag to an existing document is done via the document `PATCH` above using tag **IDs** — see [tags.md](tags.md).
+Tags are independent assets and they are created using the `POST https://api.bigdata.com/contents/v1/tags`. Assigning a tag to an existing document is done via the document `PATCH https://api.bigdata.com/contents/v1/documents/{id}` using tag **IDs** — see [tags.md](tags.md).
